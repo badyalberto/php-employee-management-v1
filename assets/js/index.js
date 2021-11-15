@@ -1,16 +1,12 @@
 async function returnEmployee() {
   const res = await fetch("../resources/employees.json");
   const data = await res.json();
-  console.log("hola");
   if (document.querySelector("#id-user")) {
     document.querySelector("#id-user").value = data.length + 1;
   }
 
   return data;
 }
-
-
-
 
 /*   document.querySelector("#send").addEventListener("click", function () {
     window.history.back();
@@ -39,7 +35,15 @@ $("#employees").jsGrid({
   pageButtonCount: 5,
 
   deleteConfirm: "Do you really want to delete the client?",
+  rowClick: function ({ item, itemIndex, event }) {
+    let id = "";
 
+    this.data.forEach((element) => {
+      if (item.id == element.id) id = item.id;
+    });
+    
+    window.location = "../src/employee.php?id=" + id;
+  },
   controller: {
     loadData: function () {
       var d = $.Deferred();
@@ -86,7 +90,7 @@ $("#employees").jsGrid({
         url: "../src/library/employeeController.php",
         data: { id: item.id },
         success: function (data) {
-          $('#employees').jsGrid( 'refresh' );
+          $("#employees").jsGrid("refresh");
           console.log("yes");
           d.resolve(data);
         },
@@ -117,7 +121,7 @@ $("#employees").jsGrid({
   },
 
   fields: [
-    { name: "id",title: "id"},
+    { name: "id", title: "id" },
     { name: "name", type: "text", width: 100, title: "Name", validate: "required" },
     {
       name: "email",

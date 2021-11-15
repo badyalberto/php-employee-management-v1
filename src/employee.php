@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once "../src/library/employeeManager.php";
 if (!isset($_SESSION["username"])) {
     header("Location: ../index.php");
 }
@@ -10,12 +11,13 @@ include_once '../assets/html/header.html';
   if(document.querySelector('#back')){
     document.querySelector('#back').addEventListener('click',back);
   }
-  
+
   function back(e) {
     e.preventDefault();
     window.location.href = "./dashboard.php";
   }
 </script>
+<script src="../assets/js/fillEmployee.js" defer></script>
 <div class="signup-container">
   <div class="left-container">
     <h1>
@@ -27,7 +29,12 @@ include_once '../assets/html/header.html';
     </div>
   </div>
   <div class="right-container">
-    <form action="../src/library/employeeController.php" method="POST">
+    <?php if (isset($_GET['id'])): ?>
+      <form action="../src/library/employeeController.php?form" method="POST">
+    <?php else: ?>
+      <form action="../src/library/employeeController.php" method="POST">
+    <?php endif?>
+<!--     <form action="../src/library/employeeController.php" method="POST"> -->
       <header>
         <input type="hidden" name="id" id="id-user">
         <h1>Create a New Employee </h1>
@@ -38,7 +45,7 @@ include_once '../assets/html/header.html';
           </div>
           <div class="pets-breed">
             <label for="lastname">Last name</label>
-            <input id="lastname" name="lastname" placeholder="Last Name" type="text"></input>
+            <input id="lastname" name="lastName" placeholder="Last Name" type="text"></input>
           </div>
           <!--   <div class="pets-photo">
             <button id="pets-upload">
@@ -57,7 +64,7 @@ include_once '../assets/html/header.html';
             <div class="radio-container">
               <input id="gender-female" name="gender" type="radio" value="woman" checked></input>
               <label for="gender-female">Woman</label>
-              <input id="gender-male" name="gender" type="radio" value="male"></input>
+              <input id="gender-male" name="gender" type="radio" value="man"></input>
               <label for="gender-male">Man</label>
             </div>
           </div>
@@ -69,8 +76,8 @@ include_once '../assets/html/header.html';
             <input id="city" name="city" placeholder="City" type="text"></input>
           </div>
           <div class="pets-birthday">
-            <label for="street">Street Address</label>
-            <input id="street" name="street" placeholder="Street Address" type="number"></input>
+            <label for="street">Street Number</label>
+            <input id="street" name="streetAddress" placeholder="Street Address" type="number"></input>
           </div>
         </div>
 
@@ -87,11 +94,11 @@ include_once '../assets/html/header.html';
         <div class="set">
           <div class="pets-breed">
             <label for="cp">Postal Code</label>
-            <input id="cp" name="cp" placeholder="03652" type="number"></input>
+            <input id="cp" name="postalCode" placeholder="03652" type="number"></input>
           </div>
           <div class="pets-birthday">
             <label for="phone">Phone number</label>
-            <input id="phone" name="phone" placeholder="632589674" type="number"></input>
+            <input id="phone" name="phoneNumber" placeholder="632589674" type="number"></input>
           </div>
         </div>
       </header>
